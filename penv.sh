@@ -50,20 +50,19 @@ add_penv_alias
 # Main script
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 environment_name"
-    exit 1
+else
+    ENV_NAME=$1
+    ALIAS_NAME="env$ENV_NAME"
+    ENV_DIR="${HOME}/.envs/${ENV_NAME}"
+
+    # Create the environment directory if it doesn't exist
+    mkdir -p "${HOME}/.envs"
+
+    # Create the virtual environment
+    python3 -m venv "$ENV_DIR"
+
+    # Add the environment activation alias
+    add_alias "$ENV_NAME"
+
+    echo "Python env $ENV_NAME created and alias $ALIAS_NAME added that activates this env"
 fi
-
-ENV_NAME=$1
-ALIAS_NAME="env$ENV_NAME"
-ENV_DIR="${HOME}/.envs/${ENV_NAME}"
-
-# Create the environment directory if it doesn't exist
-mkdir -p "${HOME}/.envs"
-
-# Create the virtual environment
-python3 -m venv "$ENV_DIR"
-
-# Add the environment activation alias
-add_alias "$ENV_NAME"
-
-echo "Python env $ENV_NAME created and alias $ALIAS_NAME added that activates this env"
