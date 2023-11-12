@@ -36,6 +36,9 @@ add_penv_alias() {
     fi
 }
 
+# Add the penv alias
+add_penv_alias
+
 # Main script
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 environment_name"
@@ -54,8 +57,5 @@ python3 -m venv "$ENV_DIR"
 
 # Add the environment activation alias
 add_alias "$ENV_NAME"
-
-# Add the penv alias
-add_penv_alias
 
 echo "Python env $ENV_NAME created and alias $ALIAS_NAME added that activates this env"
