@@ -36,7 +36,7 @@ add_alias() {
 
 # Function to add the penv alias
 add_penv_alias() {
-    local penv_command="source ${HOME}/.envs/penv.sh"
+    local penv_command="${HOME}/.envs/penv.sh"
 
     # Check if penv alias already exists, if not, add it
     if ! grep -q "alias penv=" "$ALIAS_FILE_PATH"; then
