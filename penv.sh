@@ -10,7 +10,7 @@
 #!/bin/bash
 
 # File to hold aliases
-ALIAS_FILE="${HOME}/.aliases.sh"
+ALIAS_FILE=".aliases.sh"
 ALIAS_FILE_PATH="${HOME}/$ALIAS_FILE"
 
 # Ensure the alias file exists
@@ -22,7 +22,7 @@ if ! grep -q "source $ALIAS_FILE_PATH" ~/.bashrc; then
 fi
 
 # Ensure the alias file exists
-touch "$ALIAS_FILE"
+touch "$ALIAS_FILE_PATH"
 
 # Function to add an alias
 add_alias() {
@@ -31,7 +31,7 @@ add_alias() {
     local activate_command="source ${HOME}/.envs/$env_name/bin/activate"
 
     # Add environment activation alias
-    echo "alias $alias_name=\"$activate_command\"" >> "$ALIAS_FILE"
+    echo "alias $alias_name=\"$activate_command\"" >> "$ALIAS_FILE_PATH"
 }
 
 # Function to add the penv alias
@@ -39,8 +39,8 @@ add_penv_alias() {
     local penv_command="source ${HOME}/.envs/penv.sh"
 
     # Check if penv alias already exists, if not, add it
-    if ! grep -q "alias penv=" "$ALIAS_FILE"; then
-        echo "alias penv=\"$penv_command\"" >> "$ALIAS_FILE"
+    if ! grep -q "alias penv=" "$ALIAS_FILE_PATH"; then
+        echo "alias penv=\"$penv_command\"" >> "$ALIAS_FILE_PATH"
     fi
 }
 
