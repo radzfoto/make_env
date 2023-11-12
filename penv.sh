@@ -6,12 +6,11 @@
 # Place this file in ${HOME}/.envs
 # Execute these commands on the command line:
 # $ chmod +x ${HOME}/.envs/penv.sh
-# $ touch ${HOME}/.shell_aliases.sh
 
 #!/bin/bash
 
 # File to hold aliases
-ALIAS_FILE="${HOME}/.shell_aliases.sh"
+ALIAS_FILE="${HOME}/.aliases.sh"
 
 # Ensure the alias file exists
 touch "$ALIAS_FILE"
