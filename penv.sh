@@ -1,7 +1,7 @@
 # Copyright (c) 2023 Raul Diaz
 # All rights reserved unless a LICENSE file exists in the repository
 # in which case a license is granted as per the LICENSE file contents
-
+#####################################################################
 
 # Place this file in ${HOME}/.envs
 # Execute these commands on the command line:
@@ -11,6 +11,15 @@
 
 # File to hold aliases
 ALIAS_FILE="${HOME}/.aliases.sh"
+ALIAS_FILE_PATH="${HOME}/$ALIAS_FILE"
+
+# Ensure the alias file exists
+touch "$ALIAS_FILE_PATH"
+
+# Add source line to .bashrc if it doesn't exist
+if ! grep -q "source $ALIAS_FILE_PATH" ~/.bashrc; then
+    echo "source $ALIAS_FILE_PATH" >> ~/.bashrc
+fi
 
 # Ensure the alias file exists
 touch "$ALIAS_FILE"
