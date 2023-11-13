@@ -33,6 +33,7 @@ fi
 # Add source line to the shell configuration file if it doesn't exist
 if ! grep -q "source $ALIAS_FILE_PATH" "$CONFIG_FILE"; then
     echo "source $ALIAS_FILE_PATH" >> "$CONFIG_FILE"
+    echo "Added line $ALIAS_FILE_PATH to $CONFIG_FILE"
 fi
 
 # Function to add an alias
