@@ -19,12 +19,20 @@ ALIAS_FILE_PATH="${HOME}/$ALIAS_FILE"
 # Ensure the alias file exists
 touch "$ALIAS_FILE_PATH"
 
-# Add source line to .bashrc and .zshrc if it doesn't exist
-if ! grep -q "source $ALIAS_FILE_PATH" ~/.bashrc; then
-    echo "source $ALIAS_FILE_PATH" >> ~/.bashrc
+# Determine the user's shell and edit the appropriate configuration file
+if [[ "$SHELL" =~ .*zsh$ ]]; then
+    CONFIG_FILE="${HOME}/.zshrc"
+elif [[ "$SHELL" =~ .*bash$ ]]; then
+    CONFIG_FILE="${HOME}/.bashrc"
+else
+    echo "Unsupported shell: $SHELL"
+    sleep 2
+    exit 1
 fi
-if ! grep -q "source $ALIAS_FILE_PATH" ~/.zshrc; then
-    echo "source $ALIAS_FILE_PATH" >> ~/.zshrc
+
+# Add source line to the shell configuration file if it doesn't exist
+if ! grep -q "source $ALIAS_FILE_PATH" "$CONFIG_FILE"; then
+    echo "source $ALIAS_FILE_PATH" >> "$CONFIG_FILE"
 fi
 
 # Function to add an alias
