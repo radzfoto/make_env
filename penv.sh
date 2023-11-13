@@ -9,6 +9,9 @@
 
 #!/bin/bash
 
+# Environment directory variable
+ENV_DIR_NAME=".envs"
+
 # File to hold aliases
 ALIAS_FILE=".aliases.sh"
 ALIAS_FILE_PATH="${HOME}/$ALIAS_FILE"
@@ -16,19 +19,19 @@ ALIAS_FILE_PATH="${HOME}/$ALIAS_FILE"
 # Ensure the alias file exists
 touch "$ALIAS_FILE_PATH"
 
-# Add source line to .bashrc if it doesn't exist
+# Add source line to .bashrc and .zshrc if it doesn't exist
 if ! grep -q "source $ALIAS_FILE_PATH" ~/.bashrc; then
     echo "source $ALIAS_FILE_PATH" >> ~/.bashrc
 fi
-
-# Ensure the alias file exists
-touch "$ALIAS_FILE_PATH"
+if ! grep -q "source $ALIAS_FILE_PATH" ~/.zshrc; then
+    echo "source $ALIAS_FILE_PATH" >> ~/.zshrc
+fi
 
 # Function to add an alias
 add_alias() {
     local env_name=$1
     local alias_name="env$env_name"
-    local activate_command="source ${HOME}/.envs/$env_name/bin/activate"
+    local activate_command="source ${HOME}/${ENV_DIR_NAME}/$env_name/bin/activate"
 
     # Add environment activation alias
     echo "alias $alias_name=\"$activate_command\"" >> "$ALIAS_FILE_PATH"
@@ -36,7 +39,7 @@ add_alias() {
 
 # Function to add the penv alias
 add_penv_alias() {
-    local penv_command="${HOME}/.envs/penv.sh"
+    local penv_command="${HOME}/${ENV_DIR_NAME}/penv.sh"
 
     # Check if penv alias already exists, if not, add it
     if ! grep -q "alias penv=" "$ALIAS_FILE_PATH"; then
@@ -44,22 +47,40 @@ add_penv_alias() {
     fi
 }
 
+# Function to self-install the script
+self_install() {
+    # Determine the full path of the script
+    local script_path="$(realpath "$0")"
+    local target_path="${HOME}/${ENV_DIR_NAME}/penv.sh"
+
+    # Check if the script is not already in the target location
+    if [ "$script_path" != "$target_path" ]; then
+        # Copy the script to the .envs directory
+        cp "$script_path" "$target_path"
+        chmod +x "$target_path"
+        echo "penv.sh has been copied to $target_path"
+    fi
+}
+
+# Create the environment directory if it doesn't exist
+mkdir -p "${HOME}/${ENV_DIR_NAME}"
+
+# Self-install the script into the $ENV_DIR_NAME
+self_install
+
 # Add the penv alias
 add_penv_alias
 
-# Main script
+# Create the python environment
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 environment_name"
+    echo "Usage: penv environment_name"
 else
     ENV_NAME=$1
     ALIAS_NAME="env$ENV_NAME"
-    ENV_DIR="${HOME}/.envs/${ENV_NAME}"
-
-    # Create the environment directory if it doesn't exist
-    mkdir -p "${HOME}/.envs"
+    ENVIRONMENT_DIR="${HOME}/${ENV_DIR_NAME}/${ENV_NAME}"
 
     # Create the virtual environment
-    python3 -m venv "$ENV_DIR"
+    python3 -m venv "$ENVIRONMENT_DIR"
 
     # Add the environment activation alias
     add_alias "$ENV_NAME"
