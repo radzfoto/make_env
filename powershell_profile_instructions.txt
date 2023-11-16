@@ -1,0 +1,48 @@
+To ensure that the aliases defined in your script are loaded whenever PowerShell is run, you need to modify the PowerShell profile file. This file is executed every time a new PowerShell session is started. Here are the steps to do this:
+
+    Locate or Create the PowerShell Profile File:
+    PowerShell supports several profile files, but the most commonly used one for individual users is the "Current User, Current Host" profile. To find out the path to this profile file, open PowerShell and run:
+
+    powershell
+
+echo $PROFILE
+
+Check if the Profile File Exists:
+Use the following command to check if the profile file already exists:
+
+powershell
+
+Test-Path $PROFILE
+
+Create the Profile File if It Does Not Exist:
+If the profile file does not exist, you can create it using:
+
+powershell
+
+New-Item -path $PROFILE -type file -force
+
+Edit the Profile File to Include Your Aliases:
+Open the profile file in a text editor (like Notepad, Visual Studio Code, etc.). You can do this from PowerShell as well:
+
+powershell
+
+notepad $PROFILE
+
+Add a Line to Source Your Alias File:
+In the profile file, add the following line to source your alias file. This assumes that your alias file is located at $HOME/.envs/.aliases.ps1. Adjust the path if it's different in your setup:
+
+powershell
+
+. $HOME/.envs/.aliases.ps1
+
+Save the Profile File:
+After adding the line, save the profile file and close the editor.
+
+Reload the Profile (Optional):
+For the changes to take effect immediately in your current PowerShell session, you can reload the profile with:
+
+powershell
+
+    . $PROFILE
+
+From now on, whenever you start a new PowerShell session, it will automatically load the aliases defined in your .aliases.ps1 file. Remember that any changes you make to the alias file will require either a new PowerShell session to take effect or you need to manually reload the profile file in your current session.
