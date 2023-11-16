@@ -4,7 +4,7 @@
 #####################################################################
 
 # Place this file in ${HOME}/.envs
-# Execute these commands in PowerShell:
+# Execute these commands in Windows PowerShell:
 # PS> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 # PS> . ${HOME}/.envs/penv.ps1
 
